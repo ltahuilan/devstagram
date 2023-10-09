@@ -7,6 +7,8 @@ use App\Http\Controllers\ImagenController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ComentarioController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,20 +21,34 @@ use App\Http\Controllers\ComentarioController;
 |
 */
 
+/**
+ * Modificar la variable que aplica el redirect del middleware('guest') 
+ * app\Providers\RouteServiceProvider.php
+ * modificar el public const HOME
+ */
+
 Route::get('/phpini', function () {
    return view('phpini');
 });
 
+Route::get('/', function () {
+    return redirect()->route('posts.index', auth()->user()->username);
+});
+
 //registrar cuenta
-Route::get('/crear-cuenta', [RegisterController::class, 'index'])->name('register');
+Route::get('/crear-cuenta', [RegisterController::class, 'index'])->middleware('guest')->name('register');
 Route::post('/crear-cuenta', [RegisterController::class, 'store']);
 
 //login
-Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::get('/login', [LoginController::class, 'index'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'store']);
 
 //logout
 Route::post('logout', [LogoutController::class, 'store'])->name('logout');
+
+//profile
+Route::get('/editar-perfil', [ProfileController::class, 'index'])->name('editar-perfil.index');
+Route::post('/editar-perfil', [ProfileController::class, 'store'])->name('editar-perfil.store');
 
 //Publicaciones 
 Route::get('/{user:username}', [PostController::class, 'index'])->name('posts.index');
@@ -42,6 +58,11 @@ Route::get('/{user:username}/posts/{post}', [PostController::class, 'show'])->na
 Route::post('/{user:username}/posts/{post}', [ComentarioController::class, 'store'])->name('comentarios.store');
 Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
+//likes
+Route::post('/posts/{post}/like', [LikeController::class, 'store'])->name('posts.like.store');
+Route::delete('/posts/{post}/like', [LikeController::class, 'destroy'])->name('posts.like.destroy');
+
+//imagenes
 Route::post('imagenes', [ImagenController::class, 'store'])->name('imagenes.store');
 
 

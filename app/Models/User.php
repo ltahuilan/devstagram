@@ -59,4 +59,15 @@ class User extends Authenticatable
         //un usuario puede tener muchos comentarios
         return $this->hasMany(Comentario::class);
     }
+
+    /**
+     * Eloquent
+     * Define a one-to-many relationship
+     * Relación uno a muchos...
+     * Un usuario puede tener muchos likes
+     */
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 }
