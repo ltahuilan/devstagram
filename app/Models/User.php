@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Comentario;
+use Illuminate\Http\Request;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -69,5 +70,29 @@ class User extends Authenticatable
     public function likes()
     {
         return $this->hasMany(Like::class);
+    }
+
+       /**
+     * Eloquent
+     * Define a many-to-many relationship
+     * Relación muchos a muchos...
+     * Define cuantos seguidores tiene un usuario
+     */
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'user_id', 'follower_id');
+    }
+
+    //define a cuantos sigue un usuario
+    public function followings()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'follower_id', 'user_id');
+    }
+
+    //comprobar si un usuario ya sigue a otro
+    public function checkFollowers(User $user)
+    {
+        
+        return $this->followers->contains( $user->id );
     }
 }

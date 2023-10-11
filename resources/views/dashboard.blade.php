@@ -33,16 +33,43 @@
                     @endif
                 </div>
 
-                <p class="text-gray-600 text-lg font-bold mb-2">0
-                    <span class="font-normal"> Seguidores</span>
+                <p class="text-gray-600 text-lg font-bold mb-2">
+                    {{ $user->followers->count() }}
+                    <span class="font-normal">@choice('Seguidor|Seguidores', $user->followers->count()) </span>
                 </p>
-                <p class="text-gray-600 text-lg font-bold mb-2">0
+                <p class="text-gray-600 text-lg font-bold mb-2">
+                    {{ $user->followings->count()}}
                     <span class="font-normal"> Siguiendo</span>
                 </p>
                 <p class="text-gray-600 text-lg font-bold mb-2">
                     {{ $user->posts->count() }}
                     <span class="font-normal"> Posts</span>
                 </p>
+
+                {{-- botones para seguir y dejar de seguir a un usuario --}}
+                @auth
+                    @if($user->id !== auth()->user()->id)
+
+                        @if (!$user->checkFollowers( auth()->user() ))
+
+                            <form action="{{ route('users.follow', $user) }}" method="POST">
+                                @csrf
+                                <input type="submit" value="Seguir" class="bg-blue-600 hover:bg-blue-700 text-white font-bold uppercase text-sm py-2 px-10 rounded-lg cursor-pointer">
+                            </form>
+
+                        @else
+
+                            <form action="{{ route('users.unfollow', $user) }}" method="POST">
+                                @method('DELETE')
+                                @csrf
+                                <input type="submit" value="Dejar de Seguir" class="bg-red-600 hover:bg-red-700 text-white font-bold uppercase text-sm py-2 px-10 rounded-lg cursor-pointer">
+                            </form>
+
+                        @endif
+                                       
+                    @endif
+
+                @endauth
             </div>
         </div>
 
