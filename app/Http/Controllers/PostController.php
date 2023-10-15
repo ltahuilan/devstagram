@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Follower;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -22,13 +23,15 @@ class PostController extends Controller
         // $posts = $user->posts()->where('user_id', $user->id)->get();
 
         //paginate() ejecuta la consulta, retorna los datos con paginación
-        $posts = $user->posts()->where('user_id', $user->id)->paginate(4); 
-
-        // dd($posts);
+        //latest() ordena los resultdos del más nuevo al más antiguo
+        $posts = $user->posts()->where('user_id', $user->id)->latest()->paginate(4);
+        
+        $followers = Follower::where('user_id', $user->id)->get();
         
         return view('dashboard', [
             'user' => $user,
-            'posts' => $posts
+            'posts' => $posts,
+            'followers' => $followers
         ]);
     }
 

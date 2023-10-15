@@ -65,6 +65,12 @@
                                 <input type="submit" value="Dejar de Seguir" class="bg-red-600 hover:bg-red-700 text-white font-bold uppercase text-sm py-2 px-10 rounded-lg cursor-pointer">
                             </form>
 
+                            @foreach ($followers as $follower)
+                                @if ($follower->follower_id === auth()->user()->id)
+                                    <p class="my-4 text-sm text-gray-500 font-bold">Siguiendo {{ $follower->created_at->diffForHumans() }}</p>                                   
+                                @endif
+                            @endforeach
+
                         @endif
                                        
                     @endif
@@ -78,25 +84,8 @@
     {{-- Mostrar publicaciones --}}
     <section class="container mx-auto">
 
-        @if ($posts->count())
-            <h2 class="text-3xl text-center text-gray-700 font-black my-10">Publicaciones</h2>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto">
-                @foreach ($posts as $post)
-                    <div>
-                        <a href="{{ route('posts.show', ['user' => $user->username, 'post' => $post]) }}">
-                            <img src="{{ asset('/uploads') . '/' . $post->imagen }}" alt="Imagen_posts {{ $post->titulo }}">
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-
-            <div class="my-6">
-                {{ $posts->links('pagination::tailwind')}}
-            </div>
-        @else
-            <p class="text-3xl text-center text-gray-700 font-normal my-10">No hay publicaciones</p>
-        @endif
+        {{-- componente --}}
+        <x-listar-posts :posts="$posts"/>
 
     </section>
 

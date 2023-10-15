@@ -8,6 +8,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\FollowerController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ProfileController;
 
@@ -32,9 +33,7 @@ Route::get('/phpini', function () {
    return view('phpini');
 });
 
-Route::get('/', function () {
-    return redirect()->route('posts.index', auth()->user()->username);
-});
+Route::get('/', HomeController::class)->name('home');
 
 //registrar cuenta
 Route::get('/crear-cuenta', [RegisterController::class, 'index'])->middleware('guest')->name('register');

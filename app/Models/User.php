@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Follower;
 use App\Models\Comentario;
 use Illuminate\Http\Request;
 use Laravel\Sanctum\HasApiTokens;
@@ -91,8 +92,8 @@ class User extends Authenticatable
 
     //comprobar si un usuario ya sigue a otro
     public function checkFollowers(User $user)
-    {
-        
+    {        
         return $this->followers->contains( $user->id );
     }
+
 }
