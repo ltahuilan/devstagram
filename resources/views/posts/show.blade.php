@@ -10,9 +10,12 @@
         <div class="md:w-5/12 text-center md:text-start">
             <img src="{{ asset('uploads') . '/' . $post->imagen }}" alt="imagen de {{ $post->titulo }}">
             <div class="my-4 flex gap-2 justify-center md:justify-start">
-                @auth
-
-                    @if ( $post->checkLike(auth()->user() ))
+                
+                
+                @auth                   
+                    <livewire:like-post :post="$post" />
+                    
+                    {{-- @if ( $post->checkLike(auth()->user() ))
                         <form action="{{ route('posts.like.destroy', $post) }}" method="POST">
                             @method('DELETE')
                             @csrf
@@ -31,10 +34,12 @@
                                 </svg>
                             </button>
                         </form>                    
-                    @endif
+                    @endif --}}
+
                 @endauth
 
-                <p>{{ $post->likes()->count() }} likes</p>
+                {{-- <p>{{ $post->likes()->count() }} likes</p> --}}
+
             </div>
             
             <div class="flex gap-2">
