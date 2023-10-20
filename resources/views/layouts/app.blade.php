@@ -11,6 +11,10 @@
     @stack('styles')
     @vite('./resources/css/app.css')
     @vite('./resources/js/app.js')
+    
+    {{-- <link rel="stylesheet" href="build/assets/app.1ca03c0e.css">
+    <script src="build/assets/app.ad8e539a.js" ></script> --}}
+
     @livewireStyles
     
 </head>
@@ -80,6 +84,7 @@
     </footer>
 
     @livewireScripts
+    
 </body>
 
 </html>
