@@ -9,11 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- Styles -->
     @stack('styles')
-    @vite('./resources/css/app.css')
-    @vite('./resources/js/app.js')
-
-    @livewireStyles
-    
+    @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
+    @livewireStyles    
 </head>
 
 
